@@ -39,7 +39,9 @@ class HomeController extends Controller
                 $secciones = Seccion::all();
                 $locales = Local::all();
 
-                $vacantes = Vacante::where('MP_ANIO_ID',$anio->MP_ANIO_ID)->where('MP_VAC_OBS',null)->get();
+                $vacantes = Vacante::where('MP_ANIO_ID',$anio->MP_ANIO_ID)
+                                    ->where('MP_VAC_OBS',null)
+                                    ->orderBy('MP_GRAD_ID')->get();
 
                 return view('index_vacantes')->with('anios',$anios)
                                             ->with('anio',$anio)
@@ -55,6 +57,10 @@ class HomeController extends Controller
         
     }
     public function conceptosPago(){
-        return view('conceptos');
+        
+        $aniosActivos = AnioAcademico::where('MP_ANIO_ESTADO','VIGENTE')->get();
+
+        
+        return view('index_conceptos');
     }
 }

@@ -25,9 +25,10 @@ Route::get('/conceptos-pago', [HomeController::class, 'conceptosPago'])->name('h
 Route::post('/anio-academico', [AnioAcademicoController::class, 'store'])->name('anio.store');
 Route::put('/anio-academico', [AnioAcademicoController::class, 'update'])->name('anio.update');
 
-Route::post('/vacante/masivo', [VacantesController::class, 'masivo'])->name('vacantes.masivo');
 Route::post('/vacante', [VacantesController::class, 'store'])->name('vacantes.store');
 Route::put('/vacante', [VacantesController::class, 'update'])->name('vacantes.update');
+Route::get('/vacante/{id}', [VacantesController::class, 'destroy'])->name('vacantes.delete');
+Route::post('/vacante/masivo', [VacantesController::class, 'masivo'])->name('vacantes.masivo');
 //Route::get('/vacante/{id_anio}', [VacantesController::class, 'show'])->name('vacante.show');
 
 

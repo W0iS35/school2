@@ -1,144 +1,72 @@
-<div class="modal fade " tabindex="-1" id="bd-modal-anio-academico-edit" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade " id="modal-vacante-edit" tabindex="-1"  role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg bg-white">
         <div class="modal-header">
-            <h3 class="text-center p-1 lead">Actualizar Año academico</h3>
+            <h3 class="text-center p-1 lead text-uppercase"> Actualizando Vacantes</h3>
 
-            <button type="button" class="c  lose" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
         </div>
 
         <div class="modal-content p-3">
-
-            <form action="{{ route('anio.update') }}" method="POST" class="row">
+            <form action="{{ route('vacantes.update') }}" method="POST"  class="row">
                 @method('put')
                 @csrf
-                <div class="col-md-5">
+                <div class="col-md-8 mx-auto">
                     <hr>
                     <div class="p-2  pt-0">
-                        <h3 class="lead" id="edit-titulo"> </h3>
 
-                        <hr>
-                        <div class="form-group  mt-0">
-                            <label for="descripcion" class="">Descripcion:</label>
-                            <textarea name="descripcion" id="edit-descripcion" class="col-12 form-text" placeholder="2021"
-                                required></textarea>
+                        <input type="hidden" value="" id="id_vac" name="id_vac">
+
+                        <div class="form-group ">
+                            <label for="local" class="col-md-4 text-right">Local:</label>
+                            <input type="text" id="modal-vacante-local" class="col-md-7 text-left" readonly disabled>
+                        </div>
+
+                        
+                        <div class="form-group ">
+                            <label for="nivel" class="col-md-4 text-right">Nivel:</label>
+                            <input type="text" id="modal-vacante-nivel" class="col-md-7 text-left" readonly disabled>
                         </div>
 
                         <div class="form-group  ">
-                            <label for="nombre" class="col-md-4 text-right">Nombre:</label>
-                            <input type="text" name="nombre" id="edit-nombre" class="col-md-7 text-right" placeholder="2021"
-                                required>
+                            <label for="grado" class="col-md-4 text-right">Grado:</label>
+                            <input type="text" id="modal-vacante-grado" class="col-md-7 text-left" readonly disabled>
                         </div>
 
-                        <div class="form-group  ">
-                            <label for="estado" class="col-md-4 text-right">Estado:</label>
-                            <select name="estado" class="col-md-7" id="edit-estado">
-                                <option value="VIGENTE">Vigente</option>
-                                <option value="CONCLUIDO">Concluido</option>
-                            </select>
+                        <div class="form-group ">
+                            <label for="seccion" class="col-md-4 text-right">Seccion:</label>
+                            <input type="text" id="modal-vacante-seccion" class="col-md-7 text-left" readonly disabled>
                         </div>
 
-                        <div class="form-group">
-                            <label for="fechaInit" class="col-md-4 text-right">Inicio:</label>
-                            <input type="date" name="fechaInit" id="edit-fechaInit" class="col-md-7" required>
+                        <div class="form-group ">
+                            <label for="num_vacantes" class="col-md-4 text-right">Numero de vacantes:</label>
+                            <input type="number" id="num_vacantes" name="vacantes" class="col-md-7 text-left"  required>
+             
+                            @error('vacantes')
+                                <div class=" alert offset-md-4 col-md-7 "> 
+                                    <strong class="alert-danger">* {{$message  }}</strong>
+                                </div>
+                            @enderror  
+             
                         </div>
 
-
-                        <div class="form-group">
-                            <label for="fechaFin" class="col-md-4 text-right">Fin:</label>
-                            <input type="date" name="fechaFin" id="edit-fechaFin" class="col-md-7" required>
-                        </div>
+                        
+                        
+                        
+                        
                     </div>
                 </div>
-
-                <div class="col-md-7 border border-2 border-left">
-                    <hr>
-                    <div class=" p-2 pt-0 bg-d ">
-                        <h3 class="lead">Secciones</h3>
-                        <hr>
-
-                        <div class="form-group">
-                            <label for="local">Local: </label>
-                            <select class="select-secciones-edit" id="edit-local">
-                                @foreach ($locales as $local)
-                                <option value="{{$local->MP_LOC_ID}}">{{$local->MP_LOC_NOM}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="local">Nivel: </label>
-                            <select class="select-secciones-edit" id="edit-nivel">
-                                @foreach ($niveles as $nivel)
-                                <option value="{{$nivel->MP_NIV_ID}}">{{$nivel->MP_NIV_NIVEL}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="border border-2 border-left ">
-                            <div style="height: 40vh; overflow-x: scroll;" class="col-12">
-                                @foreach ($locales as $local)
-                                @foreach ($niveles as $nivel)
-                                <table class="table table-sm  text-center mt-1 table-secciones-edit d-none table-striped"
-                                    id="table-secciones-edit-{{$local->MP_LOC_ID}}-{{$nivel->MP_NIV_ID}}">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th colspan="4" class=" text-center text-uppercase">
-                                                {{$nivel->MP_NIV_NIVEL}}:{{$local->MP_LOC_NOM}} </th>
-                                        </tr>
-                                        <tr>
-                                            <th>Nº</th>
-                                            <th>Grado</th>
-                                            <th>Seccion</th>
-                                            <th>Vacantes</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($grados as $grado)
-                                            @foreach ($secciones as $seccion)
-                                                @if (!(($grado->MP_GRA_GRADO==6 && $nivel->MP_NIV_ID==2)||
-                                                $seccion->MP_SEC_NOMBRE=="-" ))
-                                                <tr>
-                                                    <td>
-                                                        <input type="checkbox" class="cbxSecciones"
-                                                            name="EDIT{{$nivel->MP_NIV_ID}}C{{$local->MP_LOC_ID}}:{{$grado->MP_GRA_ID}}{{$seccion->MP_SEC_ID}}"
-                                                            id="C{{$nivel->MP_NIV_ID}}{{$local->MP_LOC_ID}}{{$grado->MP_GRA_ID}}{{$seccion->MP_SEC_ID}}-edit">
-                                                    </td>
-                                                    <td>{{$grado->MP_GRA_GRADO}}</td>
-                                                    <td>{{$seccion->MP_SEC_NOMBRE}}</td>
-                                                    <td><input type="number"
-                                                            name="EDIT{{$nivel->MP_NIV_ID}}V{{$local->MP_LOC_ID}}:{{$grado->MP_GRA_ID}}{{$seccion->MP_SEC_ID}}"
-                                                            id="V{{$nivel->MP_NIV_ID}}{{$local->MP_LOC_ID}}{{$grado->MP_GRA_ID}}{{$seccion->MP_SEC_ID}}-edit"
-                                                            value="0" disabled>
-                                                    </td>
-                                                </tr>
-                                                @endif
-                                            @endforeach
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                @endforeach
-
-                                @endforeach
-
-                            </div>
-
-
-                        </div>
-                    </div>
-
-                    <div class="text-right p-3 col-12">
-                        <button type="submit" class="btn btn-success">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                            Guardar
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                            Close
-                        </button>
-                    </div>
+                
+                <div class="text-right p-3 col-12">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Guardar
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                        Close
+                    </button>
                 </div>
             </form>
         </div>
