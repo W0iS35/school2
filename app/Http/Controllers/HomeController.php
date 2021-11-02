@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnioAcademico;
+use App\Models\Concepto;
+use App\Models\ConceptosPago;
 use App\Models\Grado;
 use App\Models\Local;
 use App\Models\Nivel;
@@ -56,11 +58,19 @@ class HomeController extends Controller
         return view('index_vacantes')->with('anios',$anios);
         
     }
-    public function conceptosPago(){
+    public function conceptosPago($id_anio=null){
         
         $aniosActivos = AnioAcademico::where('MP_ANIO_ESTADO','VIGENTE')->get();
 
-        
-        return view('index_conceptos');
+        if($id_anio){
+            $conceptos = ConceptosPago::where('MP_ANIO_ID',$id_anio)->get();
+            
+            //return $conceptos;
+            return view('index_conceptos')->with('anios', $aniosActivos)
+                                          ->with('conceptos',$conceptos);
+            
+        }
+
+        return view('index_conceptos')->with('anios', $aniosActivos);
     }
 }

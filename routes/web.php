@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/anio-academico', [HomeController::class, 'anioAcademico'])->name('home.anio');
 Route::get('/vacantes/{id_anio?}', [HomeController::class, 'vacantes'])->name('home.vacantes');
-Route::get('/conceptos-pago', [HomeController::class, 'conceptosPago'])->name('home.conceptos');
+Route::get('/conceptos-pago/{id_anio?}', [HomeController::class, 'conceptosPago'])->name('home.conceptos');
 
 Route::post('/anio-academico', [AnioAcademicoController::class, 'store'])->name('anio.store');
 Route::put('/anio-academico', [AnioAcademicoController::class, 'update'])->name('anio.update');
@@ -31,5 +31,7 @@ Route::get('/vacante/{id}', [VacantesController::class, 'destroy'])->name('vacan
 Route::post('/vacante/masivo', [VacantesController::class, 'masivo'])->name('vacantes.masivo');
 //Route::get('/vacante/{id_anio}', [VacantesController::class, 'show'])->name('vacante.show');
 
+
+Route::post('/conceptos-pago', [VacantesController::class, 'store'])->name('vacantes.store');
 
 

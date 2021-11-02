@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\AnioAcademico;
 use App\Models\Vacante;
 use Illuminate\Http\Request;
-use App\Models\Grado;
-use App\Models\Nivel;
-use App\Models\Seccion;
 
 class VacantesController extends Controller
 {
@@ -32,8 +29,6 @@ class VacantesController extends Controller
             "seccion_id" => 'required | min:1',
             "numero_vacantes" => 'required | min:1'
         ]);
-
-        //return $request->all();
 
         $anioAcademico = AnioAcademico::where('MP_ANIO_ID',$request->input('id_anio'))->first();
         if($anioAcademico){

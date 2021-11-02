@@ -29,7 +29,7 @@
                 <button type="button" class="btn btn-warning  btn-sm col-md-12 mb-2 " data-toggle="modal"
                     data-target=".bd-modal-anio-academico">
                     <i class="fa fa-plus" aria-hidden="true"></i>
-                    Creacion Masiva)
+                    Creacion Masiva
                 </button>
                 @include('modal.modal_vacantes_masivo')
                 @endif
