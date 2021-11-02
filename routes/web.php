@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnioAcademicoController;
+use App\Http\Controllers\ConceptoPagoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VacantesController;
 use App\Models\Vacante;
@@ -32,6 +33,11 @@ Route::post('/vacante/masivo', [VacantesController::class, 'masivo'])->name('vac
 //Route::get('/vacante/{id_anio}', [VacantesController::class, 'show'])->name('vacante.show');
 
 
-Route::post('/conceptos-pago', [VacantesController::class, 'store'])->name('vacantes.store');
+Route::post('/conceptos-pago', [ConceptoPagoController::class, 'store'])->name('concepto.store');
+Route::put('/conceptos-pago', [ConceptoPagoController::class, 'update'])->name('concepto.update');
+//Route::delete('/conceptos-pago/{id}', [VacantesController::class, 'destroy'])->name('vacantes.destroy');
+
+
+Route::get('/prueba', [HomeController::class, 'prueba'])->name('home.prueba');
 
 

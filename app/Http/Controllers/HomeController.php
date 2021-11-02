@@ -63,14 +63,25 @@ class HomeController extends Controller
         $aniosActivos = AnioAcademico::where('MP_ANIO_ESTADO','VIGENTE')->get();
 
         if($id_anio){
-            $conceptos = ConceptosPago::where('MP_ANIO_ID',$id_anio)->get();
+            $conceptosPago = ConceptosPago::where('MP_ANIO_ID',$id_anio)->get();
+            $conceptos = Concepto::all();
+            $niveles = Nivel::all();
+            $locales = Local::all();
             
             //return $conceptos;
             return view('index_conceptos')->with('anios', $aniosActivos)
-                                          ->with('conceptos',$conceptos);
+                                          ->with('conceptosPago',$conceptosPago)
+                                          ->with('conceptos',$conceptos)
+                                          ->with('niveles',$niveles)
+                                          ->with('locales',$locales);
             
         }
 
         return view('index_conceptos')->with('anios', $aniosActivos);
     }
+
+    public function prueba(){
+        return view('layout.app2');
+    }
+
 }
