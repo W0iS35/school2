@@ -1,15 +1,5 @@
 $(() => {
-    $(".cbxSecciones").change(function() {
-        let idTxt = $(this).attr("id");
-        // alert(idTxt);
-        idTxt = "V" + idTxt.substring(1, idTxt.length);
 
-        //alert(idTxt);
-        //alert(idTxt);
-        //alert($(this).prop('checked'));
-        $("#" + idTxt).prop('disabled', !($(this).prop('checked')));
-
-    })
 
     $('.edit-m').on('click', function() {
         /*
@@ -37,11 +27,16 @@ $(() => {
         $("#edit-fechaInit").val(fechaInicio);
         $("#edit-fechaFin").val(fechaFin);
 
-
         //alert(fechaInicio);
         //alert(fechaFin);
         $('#bd-modal-anio-academico-edit').modal('show');
     });
+
+
+    $('#btn_crear_anio').on('click', function() {
+        $('#bd-modal-anio-academico').modal('show');
+    });
+
 
     cargarDefault();
 
@@ -64,31 +59,7 @@ $(() => {
         // Cargar secciones desde js
 
 
-
-        $(".table-secciones").addClass('d-none');
-        $("#table-secciones-1-1").removeClass('d-none')
-        $("#table-secciones-edit-1-1").removeClass('d-none')
     }
-
-    $(".select-secciones").change(() => {
-        let local = $("#localSeleccionado option:selected").val();
-        let nivel = $("#nivelSeleccionado option:selected").val();
-        //alert("local " + local + " - nivel " + nivel);
-
-        $(".table-secciones").addClass('d-none');
-        $("#table-secciones-" + local + "-" + nivel).removeClass('d-none');
-
-    });
-
-    $(".select-secciones-edit").change(() => {
-        let local = $("#edit-local option:selected").val();
-        let nivel = $("#edit-nivel option:selected").val();
-        //alert("local " + local + " - nivel " + nivel);
-
-        $(".table-secciones-edit").addClass('d-none');
-        $("#table-secciones-edit-" + local + "-" + nivel).removeClass('d-none');
-
-    })
 
 
 

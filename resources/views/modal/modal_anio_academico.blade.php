@@ -1,4 +1,4 @@
-<div class="modal fade bd-modal-anio-academico   " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade   " tabindex="-1" id="bd-modal-anio-academico" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg bg-white">
         <div class="modal-header">
@@ -17,7 +17,7 @@
                     <div class="p-2  pt-0">
                         <div class="form-group  ">
                             <label for="nombre" class="col-md-4 text-right">Nombre:</label>
-                            <input type="text" name="nombre" id="nombre" class="col-md-7 text-left" placeholder="Introduzca un año. ejem:2020,2021,2022,..." >
+                            <input type="number" name="nombre" id="nombre" class="col-md-7 text-left" placeholder="Introduzca un año. ejem:2020,2021,2022,..." >
                             
                             @error('nombre')
                                 <div class=" alert offset-md-4 col-md-7 "> 

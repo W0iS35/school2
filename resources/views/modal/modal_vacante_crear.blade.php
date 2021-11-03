@@ -26,6 +26,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        <br>
                         
                         <div class="form-group ">
                             <label for="nivel_id" class="col-md-4 text-right">Nivel:</label>
@@ -35,6 +36,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        <br>
 
                         <div class="form-group  ">
                             <label for="grado_id" class="col-md-4 text-right">Grado:</label>
@@ -44,6 +46,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        <br>
 
                         <div class="form-group ">
                             <label for="seccion" class="col-md-4 text-right">Seccion:</label>
@@ -53,6 +56,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        <br>
 
                         <div class="form-group ">
                             <label for="numero_vacantes" class="col-md-4 text-right">Numero de vacantes:</label>
@@ -70,7 +74,7 @@
                     </div>
                 </div>
                 
-                <div class="text-right p-3 col-12">
+                <div class="text-end p-3 col-12">
                     <button type="submit" class="btn btn-success">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         Guardar

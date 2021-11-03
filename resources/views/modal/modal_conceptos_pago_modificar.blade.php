@@ -1,8 +1,8 @@
-<div class="modal fade " id="modal-conceptos-create" tabindex="-1"  role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade " id="modal-conceptos-update" tabindex="-1"  role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg bg-white">
         <div class="modal-header">
-            <h3 class="text-center p-1 lead text-uppercase">Nuevo concepto de pago</h3>
+            <h3 class="text-center p-1 lead text-uppercase">Modificar concepto de pago</h3>
 
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -75,17 +75,12 @@
                     </div>
                 </div>
                 
-                <div class="col-12 text-end ">
-                    <span class="text-danger">
-                        Nota: Solo se creara el nuevo concepto de pago si no se encuentra registrado en el año
-                    </span>
-                </div>
                 <div class="text-end p-3 col-12">
                     <button type="submit" class="btn btn-success">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         Guardar
                     </button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
                         <i class="fa fa-times" aria-hidden="true"></i>
                         Cancelar
                     </button>

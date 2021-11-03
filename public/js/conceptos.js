@@ -1,18 +1,39 @@
 $(() => {
 
 
+    alert('todo bien');
+
+    /****************************************** Lanzador de Modales ******************************************/
+
+    $('#btn_conceptos_individual').on("click", function() {
+        $('#modal-conceptos-create').modal("show");
+    })
+
+
+    $('.conceptos_pago_update').on("click", function() {
+        $('#modal-conceptos-update').modal("show");
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     $(".table-secciones").addClass('d-none');
     $("#table-secciones-1-1").removeClass('d-none')
     $("#table-secciones-edit-1-1").removeClass('d-none')
 
-    /****************************************** Lanzador de Modales ******************************************/
 
     //alert('Hola mindo')
 
-    $('#btn_crear_vacantes_individual').on("click", function() {
-        $('#modal-vacante-create').modal("show");
-    })
 
 
     $('#btn_crear_vacantes_masivo').on("click", function() {
@@ -88,6 +109,10 @@ $(() => {
         $("#" + idTxt).prop('disabled', !($(this).prop('checked')));
 
     })
+
+
+    /*
+     */
 
 
 })

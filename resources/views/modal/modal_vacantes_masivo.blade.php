@@ -14,29 +14,34 @@
                 @csrf
                 <input type="hidden" name="id_anio" value="{{$anio->MP_ANIO_ID}}">
                 
-                <div class="col-10 border border-2 mx-auto border-left">
-                    <div class=" p-2 pt-0 bg-d ">
+                <div class="col-12 border border-2 mx-auto border-left row">
+                    <div class=" col-4 p-2 pt-0 bg-d ">
                         <h3 class="lead">Secciones</h3>
                         <hr>
-                        <div class="form-group  row">
-                            <label for="local" class="col-4 text-right">Local: </label>
-                            <select class="select-secciones" id="localSeleccionado" class="col-8">
-                                @foreach ($locales as $local)
-                                    <option option value="{{$local->MP_LOC_ID}}">{{$local->MP_LOC_NOM}}</option>
-                                @endforeach
-                            </select>
+                        <div class="row  ">
+                            <label for="local" class="col-4 text-end">Local: </label>
+                            <div class="col-8 text-start">
+                                <select class="select-secciones col-8  text-start" id="localSeleccionado"  >
+                                    @foreach ($locales as $local)
+                                        <option option value="{{$local->MP_LOC_ID}}">{{$local->MP_LOC_NOM}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
+                        <br>
 
                         <div class="form-group  row">
-                            <label for="local" class="col-4 text-right">Nivel: </label>
-                            <select class="select-secciones" id="nivelSeleccionado" class="col-8">
-                                @foreach ($niveles as $nivel)
-                                <option value="{{$nivel->MP_NIV_ID}}">{{$nivel->MP_NIV_NIVEL}}</option>
-                                @endforeach
-                            </select>
+                            <label for="local" class="col-4 text-end    ">Nivel: </label>
+                            <div class="col-8 text-start">
+                                <select class="select-secciones col-8  text-start" id="nivelSeleccionado" class="col-8">
+                                    @foreach ($niveles as $nivel)
+                                    <option value="{{$nivel->MP_NIV_ID}}">{{$nivel->MP_NIV_NIVEL}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                        <hr>
-
+                    </div>
+                    <div class="col-7">
                         <div class="border border-2 border-left ">
                             <div style="height: 40vh; overflow-x: scroll;" class="col-12">
                                 @foreach ($locales as $local)
@@ -89,8 +94,8 @@
                         </div>
                     </div>
 
-                    <div class="text-right p-3 col-12">
-                        <button type="submit" class="btn btn-success">
+                    <div class="text-end p-3 col-12">
+                        <button type="submit" class="btn btn-success ">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             Guardar
                         </button>

@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <a class="menu-link active" href="{{ route('home.index') }}">
+                <a class="menu-link " id="menu_item_inicio" href="{{ route('home.index') }}">
                     <span class="menu-icon">
                         <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                         <span class="svg-icon svg-icon-2">
@@ -28,11 +28,11 @@
 
             <div class="menu-item">
                 <div class="menu-content pb-2">
-                    <span class="menu-section text-muted text-uppercase fs-8 ls-1">Gestion de año</span>
+                    <span class="menu-section text-muted text-uppercase fs-8 ls-1">Gestion de año academico</span>
                 </div>
             </div>
             <div class="menu-item">
-                <a class="menu-link" href="{{ route('home.anio') }}">
+                <a class="menu-link" id="menu_item_anio" href="{{ route('home.anio') }}">
                     <span class="menu-icon">
                         <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                         <span class="svg-icon svg-icon-2">
@@ -45,7 +45,7 @@
             </div>
 
             <div class="menu-item">
-                <a class="menu-link" href="{{ route('home.vacantes') }}">
+                <a class="menu-link" id="menu_item_vacantes" href="{{ route('home.vacantes') }}">
                     <span class="menu-icon">
                         <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                         <span class="svg-icon svg-icon-2">
@@ -59,7 +59,7 @@
 
             
             <div class="menu-item">
-                <a class="menu-link" href="{{ route('home.conceptos') }}">
+                <a class="menu-link" id="menu_item_conceptos" href="{{ route('home.conceptos') }}">
                     <span class="menu-icon">
                         <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                         <span class="svg-icon svg-icon-2">

@@ -25,6 +25,9 @@ class HomeController extends Controller
     }
     public function vacantes($id_anio=null){
 
+        //return $id_anio;
+
+
         $anios = AnioAcademico::where('MP_ANIO_ESTADO','VIGENTE')->get();
         $anio=null;
 
@@ -33,8 +36,7 @@ class HomeController extends Controller
 
         if($id_anio || $anio ){
             
-            $anio=($anio)?$anio:AnioAcademico::where('MP_ANIO_ID',$id_anio)->first();
-            
+            $anio=($anio)?$anio:AnioAcademico::where('MP_ANIO_ID', $id_anio)->first();
             if($anio){
                 $nivel= Nivel::all();
                 $grado = Grado::all();
@@ -44,6 +46,8 @@ class HomeController extends Controller
                 $vacantes = Vacante::where('MP_ANIO_ID',$anio->MP_ANIO_ID)
                                     ->where('MP_VAC_OBS',null)
                                     ->orderBy('MP_GRAD_ID')->get();
+                //return $vacantes; 
+
 
                 return view('index_vacantes')->with('anios',$anios)
                                             ->with('anio',$anio)
@@ -63,25 +67,20 @@ class HomeController extends Controller
         $aniosActivos = AnioAcademico::where('MP_ANIO_ESTADO','VIGENTE')->get();
 
         if($id_anio){
+            $anio = AnioAcademico::where('MP_ANIO_ID', $id_anio)->first();
             $conceptosPago = ConceptosPago::where('MP_ANIO_ID',$id_anio)->get();
             $conceptos = Concepto::all();
             $niveles = Nivel::all();
             $locales = Local::all();
-            
             //return $conceptos;
             return view('index_conceptos')->with('anios', $aniosActivos)
+                                          ->with('anio',$anio)
                                           ->with('conceptosPago',$conceptosPago)
                                           ->with('conceptos',$conceptos)
                                           ->with('niveles',$niveles)
                                           ->with('locales',$locales);
-            
         }
 
         return view('index_conceptos')->with('anios', $aniosActivos);
     }
-
-    public function prueba(){
-        return view('layout.app2');
-    }
-
 }

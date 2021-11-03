@@ -11,7 +11,7 @@
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Dashboard
                     <span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
-                    <small class="text-muted fs-7 fw-bold my-1 ms-1">Descripcion.........</small>
+                    <small class="text-muted fs-7 fw-bold my-1 ms-1">Estadisticas del año academico</small>
             </div>
             <!--end::Page title-->
         </div>
@@ -31,3 +31,16 @@
         <!--end::Container-->
     </div>
 @endsection
+
+
+@section('scripts')
+    
+<script>
+    $(() => {
+        //alert("asdas")
+        $(".aside-menu .menu-item .menu-link ").removeClass('active');
+        $("#menu_item_inicio").addClass('active');
+    })
+</script>
+@endsection
+

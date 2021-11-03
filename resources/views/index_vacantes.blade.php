@@ -7,34 +7,29 @@
     <!--begin::Header-->
     <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
         <!--begin::Page title-->
-        <div data-kt-swapper="true" data-kt-swapper-mode="prepend"
-            data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
-            class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
-            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Vacantes
+        <div class="col-12">
+            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1 ">Vacantes
                 <span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
-                <small class="text-muted fs-7 fw-bold my-1 ms-1">Gestion de vacantes para el año academico</small>
+                    <div class=" text-muted fs-7 fw-bold p-2  col-10 text-end" >
+                        Años activos:
+                        @foreach ($anios as $anioAc)
+                        <a class="btn btn-sm btn-primary" href="{{ route('home.vacantes', ['id_anio'=>$anioAc->MP_ANIO_ID]) }}">
+                            {{$anioAc->MP_ANIO_NOMBRE}}  {{$anioAc->MP_ANIO_ID}}
+                        </a>
+                        @endforeach
+                    </div> 
+            </h1>
         </div>
         <!--end::Page title-->
     </div>
     <!--end::Header-->
 </div>
 
-<div class="post d-flex flex-column-fluid" id="kt_post">
+<div class="post m-2" id="kt_post">
     <!--begin::Container-->
     <div class="card">
-        <div class="card-header">
-            <h3 class="text-center lead fs-2 p-3 bg-light text-uppercase">Vacantes</h3>
-        </div>
 
-        <div class="p-2 text-right">
-            Años activos:
-            @foreach ($anios as $anio)
-            <a class="btn btn-sm btn-primary" href="{{ route('home.vacantes', ['id_anio'=>$anio->MP_ANIO_ID]) }}">
-                {{$anio->MP_ANIO_NOMBRE}}
-            </a>
-            @endforeach
-
-        </div>
+        
         <hr>
         <div class="card-body bg-white row p-0 m-0">
 
@@ -45,19 +40,20 @@
                     <!-- Modal: Crear nuevo anio academico -->
                     <h3 class="text-center p-1 lead">Creacion de secciones</h3>
                     @if (count($vacantes)==0)
-                    <button type="button" class="btn btn-warning  btn-sm col-md-12 mb-2 " data-toggle="modal"
-                        data-target=".bd-modal-anio-academico">
+                    <button type="button" id="btn_crear_vacantes_masivo" class="btn btn-warning  btn-sm col-md-12 mb-2 " data-toggle="modal">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         Creacion Masiva
                     </button>
                     @include('modal.modal_vacantes_masivo')
                     @endif
 
-                    <button type="button" class="btn btn-success  btn-sm col-md-12 mb-2 " data-toggle="modal"
-                        data-target="#modal-vacante-create">
+                    <button type="button" id="btn_crear_vacantes_individual" class="btn btn-success  btn-sm col-md-12 mb-2 " data-toggle="modal"
+                        data-target="">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         Creacion Individual
                     </button>
+                    
+                @include('modal.modal_vacante_crear')
                 </div>
             </div>
 
@@ -67,11 +63,12 @@
                 <table class="table table-sm table-light table-striped text-center ">
                     <thead class="table-success">
                         <tr>
-                            <th colspan="7" class="text-center text-uppercase">Vacantes</th>
+                            <th colspan="8" class="text-center text-uppercase">Vacantes</th>
                         </tr>
                         <tr>
                             <th class="">Nº</th>
                             <th class="">Codigo</th>
+                            <th class="">Local</th>
                             <th class="">Grado</th>
                             <th class="">Seccion</th>
                             <th class="">V. Totales</th>
@@ -85,6 +82,7 @@
                         <tr>
                             <td class="text-uppercase ">{{$n++}}</td>
                             <td class="text-uppercase ">{{$vacante->grado->MP_GRA_GRADO}}</td>
+                            <td class="text-capitalize ">{{Str::lower($vacante->local->MP_LOC_NOM)}}</td>
                             <td class="text-uppercase ">{{$vacante->seccion->MP_SEC_NOMBRE}}</td>
                             <td class="text-uppercase ">{{$vacante->MP_SEC_ID}}</td>
                             <td class="text-uppercase ">{{$vacante->MP_VAC_TOT}}</td>
@@ -122,17 +120,15 @@
                 <br>
                 <br>
                 <br>
+                @include('modal.modal_vacante_edit')
+                @include('modal.modal_alerta_confirmacion')
                 @else
                 <h5 class="lead p-5 text-center "> <span class="border-bottom border-1 border-secondary"> No hay vacantes
                         registradas</span></h5>
                 @endif
             </div>
-                @include('modal.modal_alerta_confirmacion')
-                @include('modal.modal_vacante_edit')
-                @include('modal.modal_vacante_crear')
             @else
-            <h5 class="lead p-5 text-center col-12">Tiene mas de un año activo academico, para <span
-                    class="border-bottom border-1 border-secondary"> acceder seleccione un año en especifico</span> </h5>
+            <h5 class="lead p-5 text-center col-12">Tiene mas de un año academico activo, para acceder<b> seleccione un año en especifico</b> </h5>
             @endif
         </div>
     </div>
@@ -141,6 +137,13 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/vacante.js') }}"></script>
-<script src="{{ asset('js/alerta.js') }}"></script>
+    <script>
+        $(() => {
+            //alert("asdas")
+            $(".aside-menu .menu-item .menu-link ").removeClass('active');
+            $("#menu_item_vacantes").addClass('active');
+        })
+    </script>
+    <script src="{{ asset('js/vacante.js') }}"></script>
+    <script src="{{ asset('js/alerta.js') }}"></script>
 @endsection
