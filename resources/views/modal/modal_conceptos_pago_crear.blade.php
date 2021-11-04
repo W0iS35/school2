@@ -32,7 +32,7 @@
                             <select name="nivel" id="nivel" class="col-md-6" >
                                 <option value="PRIMARIA">PRIMARIA</option>
                                 <option value="SECUNDARIA">SECUNDARIA</option>
-                                <option value="GENERAL"> GENERAL </option>
+                                <option value="0"> GENERAL </option>
                             </select>
                         </div>
                         <br>
@@ -50,6 +50,7 @@
                         </div>
                         <br>
                         
+                        <!-- 
                         <div class="form-group ">
                             <label for="fecha_vencimiento" class="col-md-4 text-right">Vencimiento:</label>
                             <input type="date" name="fecha_vencimiento" class="col-md-6" id="fecha_vencimiento" required>
@@ -61,6 +62,8 @@
                             @enderror  
                         </div>
                         <br>
+                        -->
+
 
                         <div class="form-group ">
                             <label for="monto" class="col-md-4 text-right ">Monto: </label>
@@ -73,8 +76,10 @@
                             @enderror  
                         </div>
                     </div>
+                    <br>
+                    <br>
                 </div>
-                
+
                 <div class="col-12 text-end ">
                     <span class="text-danger">
                         Nota: Solo se creara el nuevo concepto de pago si no se encuentra registrado en el año

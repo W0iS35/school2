@@ -30,33 +30,70 @@ class ConceptoPagoController extends Controller
             'concepto'=>'required | min:1',
             'nivel'=>'required | min:1',
             'local'=>'required | min:1',
-            'fecha_vencimiento'=>'required | date | min:10',
+            //'fecha_vencimiento'=>'required | date | min:10',
             'monto'=>'required | min:1 ',
         ]);
-
-        $anio = AnioAcademico::find($request->input('id_anio'));
-        $concepto = Concepto::find($request->input('concepto'));
-        $nivel = Nivel::where('MP_NIV_NIVEL', $request->input('nivel'))->first();
-        $local = Local::find($request->input('local'));
-        $monto = (Double)$request->input('monto');
-
-        $cPago =  new ConceptosPago();
-        $cPago->MP_CONPAGO_MONTO=$monto;
-        $cPago->MP_CON_ID=$concepto->MP_CON_ID;
-        $cPago->MP_NIV_ID=$nivel->MP_CON_ID;
-
+        
+        $id_nivel = $request->input('nivel','0');
+        
+        $id_local = $request->input('local','0');
 
         
+        $anio = AnioAcademico::find($request->input('id_anio'));
+        $concepto = Concepto::find($request->input('concepto'));
+        $nivel = ($id_nivel=="0")? null: Nivel::where('MP_NIV_NIVEL', $id_nivel)->first();
+        $local = ($id_local=="0")? null:Local::find($id_local);
+        $monto = (Double)$request->input('monto');
 
-        return [$anio, $concepto, $nivel, $local, 
-        $request->input('fecha_vencimiento'),
-        str_replace('-','',$request->input('fecha_vencimiento')),
-        $request->input('monto')
-    ];
+        //return $concepto;
+        //return ConceptosPago::first();
+        
+        if($anio && $concepto && $monto){
+            
+            // Evitando duplicidades (Buscando conceptos de pago)
+            $conceptoPago = ConceptosPago::where('MP_CON_ID',$concepto->MP_CON_ID)
+            ->where('MP_ANIO_ID',$anio->MP_ANIO_ID)
+            ->where('MP_NIV_ID',($nivel)? $nivel->MP_NIV_ID :null)
+            ->where('MP_LOC_ID',($local)? $local->MP_LOC_ID :null)->first();
+
+/*
+            return ["anio" =>$anio, 
+            "concepto" =>$concepto, 
+            "nivel" =>$nivel, 
+            "local" =>$local, 
+            "monto" =>$monto, 
+            "conceptoPago" =>$conceptoPago]; 
+*/
+
+            if(!$conceptoPago){    
+                //return $conceptoPago;
+                $cPago =  new ConceptosPago();
+                $cPago->MP_CON_ID=$concepto->MP_CON_ID;
+                $cPago->MP_ANIO_ID=$anio->MP_ANIO_ID;
+                $cPago->MP_NIV_ID=($nivel)? $nivel->MP_NIV_ID :null;
+                $cPago->MP_LOC_ID=($local)? $local->MP_LOC_ID :null;
+                $cPago->MP_CONPAGO_MONTO=$monto;
+                $cPago->save();
+                /* 
+                return ["anio" =>$anio, 
+                "concepto" =>$concepto, 
+                "nivel" =>$nivel, 
+                "local" =>$local, 
+                "monto" =>$monto, 
+                "conceptoPago" =>$conceptoPago,
+                "cPago"=>$cPago]; 
+                */
+
+            }
+            
+        }
+        return back();
+        
+
+        //$request->input('fecha_vencimiento'),
+        //str_replace('-','',$request->input('fecha_vencimiento')),=
 
 
-
-        return $request->all();
     }
 
     public function show($id)
@@ -71,13 +108,30 @@ class ConceptoPagoController extends Controller
 
     public function update(Request $request)
     {
-        //  
-        return $request->all();
+        //
+        $request->validate([
+            'id_concepto_pago' => 'required | min:1',
+            'monto' => 'required | min:1 | numeric',
+        ]);
+
+        $conceptoPago = ConceptosPago::find($request->input('id_concepto_pago'));
+
+        if($conceptoPago){
+            $monto = (Double) $request->input('monto');
+            $conceptoPago->MP_CONPAGO_MONTO = $monto;
+            $conceptoPago->save();
+        }
+        return back();
     }
 
     
     public function destroy($id)
     {
+        $conceptoPago = ConceptosPago::find($id);
 
+        if( $conceptoPago)
+            $conceptoPago->delete();
+
+            return back();
     }
 }

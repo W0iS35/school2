@@ -1,3 +1,12 @@
+<!-- 
+        Nota: Para usar solo importar el modal y configurar el boton
+        <button type="button"
+                                    data_modal_alerta_mensaje="¿ Esta seguro de eliminar el concepto </br>"
+                                    data_modal-alert-target="">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+-->
+
 <div class="modal fade " id="modal-alerta" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg bg-white border border-1 border-warning">

@@ -29,7 +29,7 @@
                                 </div>
                             @enderror   
                         </div>
-
+                        <br>
                         <div class="form-group  mt-0">
                             <label for="descripcion" class="col-md-4 text-right">Descripcion:</label>
                             <textarea name="descripcion" id="edit-descripcion" class="col-md-7 text-left" placeholder="Introduzca una descripcion del año"
@@ -41,7 +41,7 @@
                                 </div>
                             @enderror  
                         </div>
-                        
+                        <br>
                         <div class="form-group  ">
                             <label for="estado" class="col-md-4 text-right">Estado:</label>
                             <select name="estado" class="col-md-7" id="edit-estado">
@@ -49,7 +49,7 @@
                                 <option value="CONCLUIDO">Concluido</option>
                             </select>
                         </div>
-
+<br>
                         <div class="form-group">
                             <label for="fechaInit" class="col-md-4 text-right">Inicio:</label>
                             <input type="date" name="fechaInit" id="edit-fechaInit" class="col-md-7" required>
@@ -61,7 +61,7 @@
                             @enderror  
                         </div>
 
-
+<br>
                         <div class="form-group">
                             <label for="fechaFin" class="col-md-4 text-right">Fin:</label>
                             <input type="date" name="fechaFin" id="edit-fechaFin" class="col-md-7" required>

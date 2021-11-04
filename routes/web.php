@@ -35,6 +35,7 @@ Route::post('/vacante/masivo', [VacantesController::class, 'masivo'])->name('vac
 
 Route::post('/conceptos-pago', [ConceptoPagoController::class, 'store'])->name('concepto.store');
 Route::put('/conceptos-pago', [ConceptoPagoController::class, 'update'])->name('concepto.update');
+Route::get('/conceptos-pago/deleted/{id?}', [ConceptoPagoController::class, 'destroy'])->name('concepto.destroy');
 //Route::delete('/conceptos-pago/{id}', [VacantesController::class, 'destroy'])->name('vacantes.destroy');
 
 
