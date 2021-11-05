@@ -52,7 +52,7 @@
                             <tr>
                                 <td>{{$anio->MP_ANIO_NOMBRE}}</td>
                                 <td>{{$anio->MP_ANIO_ESTADO}} </td>
-                                <td class="bg-white text-start " style="width: 16px;">
+                                <td class="bg-white text-start " style="width: 100px;">
                                     <button type="button" class="btn btn-sm bg-transparent  edit-m" style="color: red;" 
                                     data-anio-anio="{{$anio->MP_ANIO_ID}}" 
                                     data-anio-fInicio="{{$anio->MP_ANIO_FECHAINICIO}}"
@@ -64,7 +64,21 @@
                                     data-target=".bd-modal-anio-academico-edit">
                                         <i class="fas fa-edit  "></i>
                                     </button>
-                                </td>
+                                            
+                                        <!-- MODAL: Eliminar anio -->
+                                        <button type="button"
+                                                class="btn-del-vac bg-transparent border-0 text-danger btn-alert-modal"
+                                                data_modal_alerta_mensaje="¿ Esta seguro de eliminar el año academico  '{{$anio->MP_ANIO_NOMBRE}}'
+                                                'identificado con codigo {{$anio->MP_ANIO_ID}} ?
+                                                    <br><br>
+                                                    <p  class='small text-danger text-right'><span> Solo se eliminaran años que no tengan registradas vacantes, conceptos, etc</span></p>
+                                        "
+                                                data_modal-alert-target="{{ route('anio.delete', ['id'=>$anio->MP_ANIO_ID]) }}
+                                                ">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                
                             </tr>
                             @endforeach
                         </tbody>
@@ -78,6 +92,8 @@
     <!--Begin ::Modals-->
     @include('modal.modal_anio_academico')
     @include('modal.modal_anio_academico_edit')
+    @include('modal.modal_alerta_confirmacion')
+
     <!--End ::Modals-->
 
 @endsection
@@ -94,6 +110,7 @@
     </script>
 
     <script src="{{ asset('js/anio.js') }}"></script>   
+    <script src="{{ asset('js/alerta.js') }}"></script>   
 @endsection
 
 

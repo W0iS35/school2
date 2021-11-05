@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnioAcademico;
+use App\Models\Vacante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AnioAcademicoController extends Controller
 {
@@ -82,7 +84,17 @@ class AnioAcademicoController extends Controller
     
     public function destroy($id)
     {
+        $anio  = AnioAcademico::find($id);
 
+        $vacantesVinculadas = Vacante::where('MP_ANIO_ID', $id)->first();
+        $ConceptosPVinculados = DB::table('MP_CONCEPTOPAGO')->where('MP_ANIO_ID',$id)->first();
+        
+        if(!(  $vacantesVinculadas || $ConceptosPVinculados)){
+            $anio->delete();
+        }
+        //return [ "vacantesVinculadas"=> $vacantesVinculadas, "ConceptosPVinculados"=> $ConceptosPVinculados ];
+        return back();
+        //return $anio;
     }
 
 }

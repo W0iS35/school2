@@ -31,7 +31,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('index');
     }
 
     public function anioAcademico(){
@@ -42,10 +42,10 @@ class HomeController extends Controller
     public function vacantes($id_anio=null){
 
         //return $id_anio;
-
-
+        
         $anios = AnioAcademico::where('MP_ANIO_ESTADO','VIGENTE')->get();
         $anio=null;
+        
 
         if(count($anios)==1)
                 $anio= $anios[0];

@@ -21,7 +21,7 @@
 
                         <div class="form-group  ">
                             <label for="local_id" class=" col-md-4 text-end">Local:</label>
-                            <select name="local_id " class="col-md-5" id="local_id " >
+                            <select name="local_id" class="col-md-5" id="local_id " >
                                 @foreach ($locales as $local)
                                 <option value="{{$local->MP_LOC_ID}}">{{$local->MP_LOC_NOM}}</option>
                                 @endforeach

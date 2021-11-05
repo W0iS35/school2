@@ -34,6 +34,9 @@ class VacantesController extends Controller
             "numero_vacantes" => 'required | min:1'
         ]);
 
+        //return $request->all();
+
+
         $anioAcademico = AnioAcademico::where('MP_ANIO_ID',$request->input('id_anio'))->first();
         if($anioAcademico){
             // Buscando seccion ya creada

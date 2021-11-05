@@ -39,7 +39,6 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 /************************************************************ */
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/anio-academico', [HomeController::class, 'anioAcademico'])->name('home.anio');
@@ -48,6 +47,7 @@ Route::get('/conceptos-pago/{id_anio?}', [HomeController::class, 'conceptosPago'
 
 Route::post('/anio-academico', [AnioAcademicoController::class, 'store'])->name('anio.store');
 Route::put('/anio-academico', [AnioAcademicoController::class, 'update'])->name('anio.update');
+Route::get('/anio-academico/delete/{id}', [AnioAcademicoController::class, 'destroy'])->name('anio.delete');
 
 Route::post('/vacante', [VacantesController::class, 'store'])->name('vacantes.store');
 Route::put('/vacante', [VacantesController::class, 'update'])->name('vacantes.update');
