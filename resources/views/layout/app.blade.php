@@ -96,8 +96,13 @@
 										<!--begin::User-->
 										<div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
 											<!--begin::Menu wrapper-->
-											<div class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-												<img src="layout/media/avatars/150-26.jpg" alt="user" />
+											<div class="d-flex align-items-end">
+												<p class="p-2 m-0">{{Auth::user()->username}} ({{Auth::user()->USU_CARGO}})</p>
+												<div class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+													<img src="{{ asset('images/colegio/avatar/150-7.jpg') }}" alt="user" />
+												</div>
+												| &nbsp;
+												<a href="{{ route('logout') }}" class="btn btn-sm btn-danger">Salir</a>
 											</div>
 											<!--begin::Menu-->
 											<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px" data-kt-menu="true">
@@ -106,7 +111,7 @@
 													<div class="menu-content d-flex align-items-center px-3">
 														<!--begin::Avatar-->
 														<div class="symbol symbol-50px me-5">
-															<img alt="Logo" src="{{ asset('layout/media/avatars/150-26.jpg') }}" />
+															<img alt="Logo" src="{{ asset('layout/media/avatars/150-26.jpg') }}" /> 
 														</div>
 														<!--end::Avatar-->
 														<!--begin::Username-->
@@ -138,6 +143,10 @@
 											<!--end::Menu wrapper-->
 										</div>
 										<!--end::User -->
+
+
+
+										
 										<!--begin::Heaeder menu toggle-->
 										<div class="d-flex align-items-center d-lg-none ms-2 me-n3" title="Show header menu">
 											<div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_header_menu_mobile_toggle">
@@ -181,16 +190,21 @@
 		<!--end::Root-->
 		<!--end::Main-->
 
-		<!--begin::Javascript-->
-		<!--begin::Global Javascript Bundle(used by all pages)-->
-		<!--end::Global Javascript Bundle-->
 		<!--begin::Page Custom Javascript(used by this page)-->
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		
+		
+				<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<!--begin::Javascript-->
 
 
 		@yield('scripts')
 
+		<!--begin::Global Javascript Bundle(used by all pages)-->
+		<script src="{{ asset('layout/plugins/global/plugins.bundle.js') }}"></script>
+		<script src="{{ asset('layout/js/scripts.bundle.js') }}"></script>
+		
+		<!--end::Global Javascript Bundle-->
 		<!-- 
 	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 		-->

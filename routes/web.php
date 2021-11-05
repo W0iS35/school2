@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AnioAcademicoController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConceptoPagoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VacantesController;
 use App\Models\Vacante;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +19,27 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+//Auth::routes();
+
+/************************************************************ */
+
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/custom-signin', [AuthController::class, 'createSignin'])->name('signin.custom');
+
+
+Route::get('/register', [AuthController::class, 'signup'])->name('register');
+Route::post('/create-user', [AuthController::class, 'customSignup'])->name('user.registration');
+
+
+Route::get('/dashboard', [AuthController::class, 'dashboardView'])->name('dashboard');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+/************************************************************ */
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/anio-academico', [HomeController::class, 'anioAcademico'])->name('home.anio');
@@ -40,5 +63,6 @@ Route::get('/conceptos-pago/deleted/{id?}', [ConceptoPagoController::class, 'des
 
 
 Route::get('/prueba', [HomeController::class, 'prueba'])->name('home.prueba');
+
 
 

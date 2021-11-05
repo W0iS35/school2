@@ -95,7 +95,12 @@
                                         <!-- MODAL: Eliminar vacante -->
                                         <button type="button"
                                             class="btn-del-vac bg-transparent border-0 text-danger btn-alert-modal"
-                                            data_modal_alerta_mensaje="¿ Esta seguro de eliminar el concepto de pago <b> '{{$concepto->concepto->MP_CON_CONCEPTO}}'' </b> con codigo {{$concepto->MP_CONPAGO_ID}}  </br>"
+                                            data_modal_alerta_mensaje="¿ Esta seguro de eliminar el concepto de pago <b> '{{$concepto->concepto->MP_CON_CONCEPTO}}'' </b> con codigo {{$concepto->MP_CONPAGO_ID}}  </br></br>
+                                            <div class='text-end'>
+                                                <span class='text-danger'>
+                                                    <b> Nota:</b> Solo eliminara conceptos que no se han utilizado en algun pago 
+                                                </span>
+                                            </div>"
                                             data_modal-alert-target="{{ route('concepto.destroy', ['id'=>$concepto->MP_CONPAGO_ID]) }} ">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </button>

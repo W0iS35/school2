@@ -7,7 +7,9 @@ use App\Models\Concepto;
 use App\Models\ConceptosPago;
 use App\Models\Local;
 use App\Models\Nivel;
+use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Cast\Double;
 
 class ConceptoPagoController extends Controller
@@ -129,8 +131,19 @@ class ConceptoPagoController extends Controller
     {
         $conceptoPago = ConceptosPago::find($id);
 
-        if( $conceptoPago)
-            $conceptoPago->delete();
+        if( $conceptoPago){
+
+            // Buscando pagos realizados
+            $existeCronograma = DB::table('MP_CRONOGRAMAPAGO')->where('MP_CONPAGO_ID', $conceptoPago->MP_CONPAGO_ID)->first();
+            $existePago = DB::table('MP_PAGO')->where('MP_CONPAGO_ID', $conceptoPago->MP_CONPAGO_ID)->first();
+
+            //return ["existeCronograma"=> $existeCronograma, "existePago"=> $existePago];
+            if(!($existeCronograma || $existePago))            
+                $conceptoPago->delete();
+            else
+                echo '<script> alert( "Error, ya se ha registrado pagos con este concepto" ); <script>';
+
+        }
 
             return back();
     }

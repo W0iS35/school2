@@ -26,14 +26,10 @@
                     <span id="modal_alerta_mensaje"></span>
                 </div>
 
-                <div class="text-right p-3 col-12">
+                <div class="text-end p-3 col-12">
                     <button type="submit" class="btn btn-danger btn-sm">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         Aceptar
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                        Cancelar
                     </button>
                 </div>
             </form>

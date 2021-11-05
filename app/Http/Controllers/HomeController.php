@@ -14,10 +14,26 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    
-    public function index(){
-        return view('index');
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('home');
+    }
+
     public function anioAcademico(){
         $anios= AnioAcademico::orderBy('MP_ANIO_ID','DESC')->take(10)->get();
         //return $anios; 
@@ -83,4 +99,5 @@ class HomeController extends Controller
 
         return view('index_conceptos')->with('anios', $aniosActivos);
     }
+
 }
