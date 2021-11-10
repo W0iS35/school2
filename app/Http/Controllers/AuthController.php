@@ -23,10 +23,13 @@ class AuthController extends Controller
         ]);
         
         $credentials = $request->only('username', 'password');
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
-                        ->withSuccess('Logged-in');
-        }
+        
+        // VERIFICANDOk
+        if(User::where('username', $request->input('username'))->where('USU_ESTADO', 'ACTIVO')->first())
+            if (Auth::attempt($credentials)) {
+                return redirect()->intended('dashboard')
+                            ->withSuccess('Logged-in');
+            }
         return redirect("login")->withSuccess('Credentials are wrong.');
     }
 
