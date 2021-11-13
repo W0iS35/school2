@@ -11,6 +11,10 @@ class AnioAcademico extends Model
     protected $table = 'MP_ANIOACADEMICO';
     protected $primaryKey = 'MP_ANIO_ID';
  
-    public $timestamps = false;   
+    public $timestamps = false;  
+    
+    public function vacantes (){
+        return $this->hasMany( Vacante::class,'MP_ANIO_ID', 'MP_ANIO_ID');
+    } 
 
 }

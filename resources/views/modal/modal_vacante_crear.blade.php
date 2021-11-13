@@ -19,13 +19,31 @@
 
                         <input type="hidden" name="id_anio" value="{{$anio->MP_ANIO_ID}}">
 
-                        <div class="form-group  ">
+                        <input type="text" name="local_id" id="local_id_hidden" value="1">
+
+                        <div class="form-group row  ">
                             <label for="local_id" class=" col-md-4 text-end">Local:</label>
-                            <select name="local_id" class="col-md-5" id="local_id " >
-                                @foreach ($locales as $local)
-                                <option value="{{$local->MP_LOC_ID}}">{{$local->MP_LOC_NOM}}</option>
-                                @endforeach
-                            </select>
+
+                            <div class="cajaselect col-md-8">
+                                <span class="seleccionado" id="txt_local_nombre">Principal</span>
+                                <ul class="listaselect">
+                                    @foreach ($locales as $local)
+                                    <li  data-name="{{$local->MP_LOC_NOM}}">
+                                        <a href="#" >
+                                        <div class="row">
+                                            <div class="col-6 " style="text-align: left; padding-left: 2em;"
+                                             id="{{$local->MP_LOC_ID}}" 
+                                             data_nombre="{{$local->MP_LOC_NOM}}">
+                                             {{$local->MP_LOC_NOM}} 
+                                            </div>
+                                            <div class="col-6 text-right text-muted" style="text-align: right; padding-right: 2em;">({{$local->MP_LOC_DIR}})</div>
+                                        </div>
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                                <span class="trianguloinf" style="color: black"></span>
+                            </div>
                         </div>
                         <br>
 
@@ -33,7 +51,9 @@
                             <label for="nivel_id" class="col-md-4  text-end">Nivel:</label>
                             <select name="nivel_id" id="nivel_id" class="col-md-5">
                                 @foreach ($niveles as $nivel)
-                                <option value="{{$nivel->MP_NIV_ID}}">{{$nivel->MP_NIV_NIVEL}}</option>
+                                <option value="{{$nivel->MP_NIV_ID}}">
+                                    <div class="col-6 text-center bg-danger">{{$nivel->MP_NIV_NIVEL}}</div>
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -84,3 +104,75 @@
         </div>
     </div>
 </div>
+
+<style>
+.cajaselect {
+  background: none repeat scroll 0 0 #fff;
+  border-radius: 5px 5px 0 0;
+  border: 1px solid black;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+  z-index: 1;
+  height: 20px;
+}
+ul.listaselect {
+  background: none repeat scroll 0 0 #fff;
+  border: 1px solid #dedede;
+  display: none;
+  left: -1px;
+  margin-left: 0;
+  margin-top: 25px;
+  padding-left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+ul.listaselect li {
+  border-bottom: 1px solid #efefef;
+  cursor: pointer;
+  display: block;
+  list-style: outside none none;
+  margin: 0;
+}
+ul.listaselect li a {
+  color: #333;
+  text-decoration: none;
+}
+ul.listaselect li a:hover {
+  color: #999797;
+  text-decoration: none;
+}
+ul.SelectProductos li:last-child {
+  border-bottom: medium none;
+}
+.seleccionado {
+  color: black;
+  display: block;
+  text-indent: 10px;
+}
+.trianguloinf {
+  border-left: 9px solid rgba(0, 0, 0, 0);
+  border-right: 9px solid rgba(0, 0, 0, 0);
+  border-top: 13px solid #ccc;
+  height: 0;
+  position: absolute;
+  color: black;
+  right: 10px;
+  top: 2px;
+  width: 0;
+}
+.triangulosup {
+  border-bottom: 13px solid #ccc;
+  border-left: 9px solid rgba(0, 0, 0, 0);
+  border-right: 9px solid rgba(0, 0, 0, 0);
+  height: 0;
+  position: absolute;
+  right: 10px;
+  top: 2px;
+  width: 0;
+}
+
+
+</style>
+

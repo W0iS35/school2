@@ -38,6 +38,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 /************************************************************ */
 
+/* API */
+Route::get('/vacantes-api/{id_anio}/{id_local?}/{id_nivel?}', [HomeController::class, 'getDashboard'])->name('home.vacantesdashboard');
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
@@ -62,7 +64,8 @@ Route::get('/conceptos-pago/deleted/{id?}', [ConceptoPagoController::class, 'des
 //Route::delete('/conceptos-pago/{id}', [VacantesController::class, 'destroy'])->name('vacantes.destroy');
 
 
-Route::get('/prueba', [HomeController::class, 'prueba'])->name('home.prueba');
+//Route::get('/prueba', [HomeController::class, 'prueba'])->name('home.prueba');
+
 
 
 

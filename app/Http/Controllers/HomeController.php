@@ -31,7 +31,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $year = date('Y'); 
+        
+        $locales = Local::all();
+        $niveles = Nivel::all();
+        $anioActual = AnioAcademico::where("MP_ANIO_NOMBRE", $year)->first();
+
+        return view('index')->with("locales", $locales)
+                            ->with("niveles", $niveles)
+                            ->with("anioActual", $anioActual);
     }
 
     public function anioAcademico(){
@@ -99,5 +107,19 @@ class HomeController extends Controller
 
         return view('index_conceptos')->with('anios', $aniosActivos);
     }
+
+    public function getDashboard($id_anio, $id_local=null,  $id_nivel=null){
+        $vacantes =[];
+        if($id_local && $id_nivel){
+            $anio = AnioAcademico::where("MP_ANIO_ID",$id_anio)->first();
+
+            $vacantes =  $anio->vacantes->where('MP_VAC_OBS','!=', '-1')
+                                        ->where('MP_NIV_ID', $id_nivel)
+                                        ->where('MP_LOC_ID', $id_local);
+            
+        }
+        return response()->json($vacantes);
+    }
+
 
 }
