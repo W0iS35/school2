@@ -33,7 +33,6 @@ $( ()=>{
    /****************************  Begin: peticiones FETCH  *******************************/
    
    cargarData =  async (url)=>{
-       alert(url)
        response = await fetch(url,{
            "method":"GET",
            "headers":{
@@ -42,8 +41,7 @@ $( ()=>{
             }
         });
         data =  await response.json();
-        console.log(data);
-        
+
         let grados = new Map();
         grados.set("1","Primero");
         grados.set("2","Segundo");

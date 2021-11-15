@@ -38,12 +38,11 @@ class HomeController extends Controller
         $anioActual = AnioAcademico::where("MP_ANIO_NOMBRE", $year)->first();
         $conceptosPago =  ConceptosPago::where("MP_ANIO_ID", $anioActual->MP_ANIO_ID)->get();
 
-        return $conceptosPago;
 
         return view('index')->with("locales", $locales)
                             ->with("niveles", $niveles)
-                            ->with('conceptosPago', $conceptosPago)
-                            ->with("anioActual", $anioActual);
+                            ->with('anioActual', $anioActual)
+                            ->with('conceptosPago', $conceptosPago);
     }
 
     public function anioAcademico(){
