@@ -143,6 +143,52 @@
             $(".aside-menu .menu-item .menu-link ").removeClass('active');
             $("#menu_item_vacantes").addClass('active');
         })
+
+        $(document).ready(function() {
+            function clickcaja(e) {
+            var lista = $(this).find("ul"),
+                    triangulo = $(this).find("span:last-child");
+            e.preventDefault();
+                //lista.is(":hidden") ? $(this).find("ul").show() : $(this).find("ul").hide();
+            $(this).find("ul").toggle();
+                if(lista.is(":hidden")) {
+                    triangulo.removeClass("triangulosup").addClass("trianguloinf");
+                }
+                else {
+                    triangulo.removeClass("trianguloinf").addClass("triangulosup");
+                }
+            }
+            function clickli(e) {
+                var texto = $(this).text(),
+                    seleccionado = $(this).parent().prev(),
+                        lista = $(this).closest("ul"),
+                        triangulo = $(this).parent().next();
+                e.preventDefault();
+                e.stopPropagation();  
+
+                console.log(e)
+
+                $("#local_id_hidden").val(e.target.id);
+                
+                let nombre = e.target.attributes[3];
+                /*
+                console.log(nombre.value);
+                alert(nombre)
+                */
+
+
+                
+                //console.log($(".seleccionado")[0]);
+                //$(".seleccionado").;
+
+                seleccionado.text(nombre.value);
+                    lista.hide();
+                    triangulo.removeClass("triangulosup").addClass("trianguloinf");
+            }
+            $(".cajaselect").click(clickcaja);
+            $(".cajaselect").on("click", "li", clickli);
+        });
+
     </script>
     <script src="{{ asset('js/vacante.js') }}"></script>
     <script src="{{ asset('js/alerta.js') }}"></script>
