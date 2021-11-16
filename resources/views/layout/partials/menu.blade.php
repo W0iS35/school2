@@ -70,6 +70,26 @@
                     <span class="menu-title">Conceptos de pago</span>
                 </a>
             </div>
+            
+
+            <div class="menu-item">
+                <div class="menu-content pb-2">
+                    <span class="menu-section text-muted text-uppercase fs-8 ls-1">Facturacion</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <a class="menu-link" id="menu_item_pagos" href="{{ route('home.facturacion.pagos') }}">
+                    <span class="menu-icon">
+                        <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                        <span class="svg-icon svg-icon-2">
+                            <i class="fas fa-money-bill-alt    "></i>
+                        </span>
+                        <!--end::Svg Icon-->
+                    </span>
+                    <span class="menu-title">Pagos</span>
+                </a>
+            </div>
+
             <!--
    <div class="menu-item">
                 <a class="menu-link" href="dashboards/no-toolbar.html">

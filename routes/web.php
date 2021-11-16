@@ -42,30 +42,44 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/vacantes-api/{id_anio}/{id_local?}/{id_nivel?}', [HomeController::class, 'getDashboard'])->name('home.vacantesdashboard');
 
 
+
+
+/***************************************** Begin: Vistas  ********************************************/
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/anio-academico', [HomeController::class, 'anioAcademico'])->name('home.anio');
 Route::get('/vacantes/{id_anio?}', [HomeController::class, 'vacantes'])->name('home.vacantes');
 Route::get('/conceptos-pago/{id_anio?}', [HomeController::class, 'conceptosPago'])->name('home.conceptos');
+Route::get('/pagos', [HomeController::class, 'facturacion_pagos'])->name('home.facturacion.pagos');
 
+
+
+/***************************************** End: Vistas  ********************************************/
+
+
+/***************************************** Begin: CRUD Año academico  ********************************************/
 Route::post('/anio-academico', [AnioAcademicoController::class, 'store'])->name('anio.store');
 Route::put('/anio-academico', [AnioAcademicoController::class, 'update'])->name('anio.update');
 Route::get('/anio-academico/delete/{id}', [AnioAcademicoController::class, 'destroy'])->name('anio.delete');
+/***************************************** End: CRUD Año academico  ********************************************/
 
+/***************************************** Begin: CRUD Año Vacante  ********************************************/
 Route::post('/vacante', [VacantesController::class, 'store'])->name('vacantes.store');
 Route::put('/vacante', [VacantesController::class, 'update'])->name('vacantes.update');
 Route::get('/vacante/{id}', [VacantesController::class, 'destroy'])->name('vacantes.delete');
 Route::post('/vacante/masivo', [VacantesController::class, 'masivo'])->name('vacantes.masivo');
 //Route::get('/vacante/{id_anio}', [VacantesController::class, 'show'])->name('vacante.show');
+/***************************************** End: CRUD Año Vacante  ********************************************/
 
 
+/***************************************** Begin: CRUD Concepto de pago  ********************************************/
 Route::post('/conceptos-pago', [ConceptoPagoController::class, 'store'])->name('concepto.store');
 Route::put('/conceptos-pago', [ConceptoPagoController::class, 'update'])->name('concepto.update');
 Route::get('/conceptos-pago/deleted/{id?}', [ConceptoPagoController::class, 'destroy'])->name('concepto.destroy');
 //Route::delete('/conceptos-pago/{id}', [VacantesController::class, 'destroy'])->name('vacantes.destroy');
+/***************************************** End: CRUD Concepto de pago  ********************************************/
 
 
-//Route::get('/prueba', [HomeController::class, 'prueba'])->name('home.prueba');
 
-
+Route::fallback( [HomeController::class, 'error404'])->name('not.found');
 
 

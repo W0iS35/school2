@@ -111,18 +111,42 @@ class HomeController extends Controller
         return view('index_conceptos')->with('anios', $aniosActivos);
     }
 
+    
+    
+/*********************** Begin: Modulo de facturacion ************************************/
+    public function facturacion_pagos(){
+        return view('index_pagos_facturacion');
+        return "Facturando.....";
+    }
+    
+    /*********************** End: Modulo de facturacion ************************************/
+    
+    
+    /*********************** Begin: API ************************************/
     public function getDashboard($id_anio, $id_local=null,  $id_nivel=null){
         $vacantes =[];
         if($id_local && $id_nivel){
             $anio = AnioAcademico::where("MP_ANIO_ID",$id_anio)->first();
-
+            
             $vacantes =  $anio->vacantes->where('MP_VAC_OBS','!=', '-1')
-                                        ->where('MP_NIV_ID', $id_nivel)
-                                        ->where('MP_LOC_ID', $id_local);
+            ->where('MP_NIV_ID', $id_nivel)
+            ->where('MP_LOC_ID', $id_local);
             
         }
         return response()->json($vacantes);
     }
-
-
+    /*********************** End: API ************************************/
+    
+    
+    /*********************** Begin: Error 404 ************************************/
+    public function error404(){
+        return view('error404');
+    }
+    /*********************** End: Error 404 ************************************/
 }
+
+
+
+
+
+
