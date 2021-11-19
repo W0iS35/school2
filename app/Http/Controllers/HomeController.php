@@ -148,44 +148,69 @@ class HomeController extends Controller
             $alumno = Alumno::where('MP_ALU_DNI', $dni)->get()->first();
             $anio = AnioAcademico::where('MP_ANIO_ID', $id_anio)->get()->first();
 
+           
+            //return ["alumno"=> $alumno, "anio"=> $anio, "vacante"=> $vacante, "conceptosPago"=> $conceptosPago, "cronograma"=>$cronograma];
 
+            
             if($alumno){
+                $vacante = [];
+                $cronograma= [];
+                $conceptosPago = [];
+                $deudas_pendientes=[];
+                $alumno_cursando = true;
+
                 $matriculas = $alumno->matricula;
-                $vacante = null;
+
                 if($matriculas){
-                    foreach($matriculas as $matricula){
-                        if($matricula->vacante->MP_ANIO_ID == $anio->MP_ANIO_ID)
-                        $vacante = $matricula->vacante;
-                        break;
+                    
+                    $vacante = null; 
+                    $matricula= null;
+
+                    foreach($matriculas as $matriculaIterador){
+                        // Verificando si el alumno esta matriculado en el anio actual (si el alumno esta matriculado, habra vacante )
+                        if($matriculaIterador->vacante->MP_ANIO_ID == $anio->MP_ANIO_ID){
+                            $matricula= $matriculaIterador;
+                            $vacante = $matriculaIterador->vacante;
+                        }
+                        // Buscando deudas pendientes
+                        $cronogramasPendientes = CronogramaPago::where('MP_MAT_ID',$matriculaIterador->MP_MAT_ID)
+                                                ->where('MP_CRO_ESTADO', 'PENDIENTE')->get();
+                        $deudas_pendientes = [...$deudas_pendientes, ...$cronogramasPendientes];
                     }
-                }
-                if($vacante){
+                    //return $deudas_pendientes;
+                    //Si el alumno no se encuentra matriculado en el año actua, matricula y vacante seran iguales al ultimo anio de estudios 
+                    if(!$vacante){
+                        $vacante = $matriculas[0]->vacante; 
+                        $matricula= $matriculas[0];
+                        $alumno_cursando = false;
+                        //return $vacante;
+                    }
 
-                    $cronograma= [];
-                    $conceptosPago = [];
-
-                    $cronograma =  CronogramaPago::join('MP_CONCEPTOPAGO', 'MP_CRONOGRAMAPAGO.MP_CONPAGO_ID', '=', 'MP_CONCEPTOPAGO.MP_CONPAGO_ID')
-                                ->join('MP_CONCEPTO', 'MP_CONCEPTOPAGO.MP_CON_ID', '=', 'MP_CONCEPTO.MP_CON_ID')
-                                ->where("MP_MAT_ID",$matricula->MP_MAT_ID)
-                                ->select(["MP_CRO_ID as id_cronograma","MP_MAT_ID", "MP_CRO_ESTADO", "MP_CRO_TIPODEUDA", "MP_CRO_MONTO", "MP_ANIO_ID","MP_CON_CONCEPTO" ])
-                                ->get();
-
-                     
-                    $query = "
-                            select	cp.MP_CONPAGO_ID as 'id_conceptoPago', cp.MP_CONPAGO_MONTO as 'monto',
+                    $cronograma =   CronogramaPago::join('MP_CONCEPTOPAGO', 'MP_CRONOGRAMAPAGO.MP_CONPAGO_ID', '=', 'MP_CONCEPTOPAGO.MP_CONPAGO_ID')
+                                             ->join('MP_CONCEPTO', 'MP_CONCEPTOPAGO.MP_CON_ID', '=', 'MP_CONCEPTO.MP_CON_ID')
+                                             ->where("MP_MAT_ID",$matricula->MP_MAT_ID)
+                                            ->select(["MP_CRO_ID as id_cronograma","MP_MAT_ID", "MP_CRO_ESTADO", "MP_CRO_TIPODEUDA", "MP_CRO_MONTO", "MP_ANIO_ID","MP_CON_CONCEPTO" ])
+                                             ->get();
+                      
+                     $query = "
+                             select	cp.MP_CONPAGO_ID as 'id_conceptoPago', cp.MP_CONPAGO_MONTO as 'monto',
                                     c.MP_CON_ID as 'id_concepto', c.MP_CON_CONCEPTO as 'concepto_nombre',
                                     c.MP_TIPO_CON_ID as 'id_tipo', t.MP_TIPO_CON_DESC as  'tipo_concepto'
-                            from MP_CONCEPTOPAGO cp inner join MP_CONCEPTO c 
-                            on cp.MP_CON_ID = c.MP_CON_ID
-                                inner join MP_TIPO_CONCEPTO t on c.MP_TIPO_CON_ID =t.MP_TIPO_CON_ID 
-                                where cp.MP_ANIO_ID = ? 
-                                     and (cp.MP_NIV_ID is null or cp.MP_NIV_ID= ?)
-                                     and (cp.MP_LOC_ID is null or cp.MP_LOC_ID= ?)
-                    ";
+                             from MP_CONCEPTOPAGO cp inner join MP_CONCEPTO c 
+                             on cp.MP_CON_ID = c.MP_CON_ID
+                                 inner join MP_TIPO_CONCEPTO t on c.MP_TIPO_CON_ID =t.MP_TIPO_CON_ID 
+                                 where cp.MP_ANIO_ID = ? 
+                                      and (cp.MP_NIV_ID is null or cp.MP_NIV_ID= ?)
+                                      and (cp.MP_LOC_ID is null or cp.MP_LOC_ID= ?)
+                                      and t.MP_TIPO_CON_ID !=1
+
+                     ";
+
+                     
+                     // Orden: anio_id, nivel_id, local_id
+                     $conceptosPago = DB::select($query,  [ ($alumno_cursando? $vacante->MP_ANIO_ID: $anio->MP_ANIO_ID ),$vacante->MP_NIV_ID,$vacante->MP_LOC_ID]);  
+                    //return ["alumno"=> $alumno, "anio"=> $anio, "vacante"=> $vacante, "conceptosPago"=> $conceptosPago, "cronograma"=>$cronograma];
                     
-                    $conceptosPago = DB::select($query, [$vacante->MP_ANIO_ID,$vacante->MP_NIV_ID,$vacante->MP_LOC_ID]);  // Orden: anio_id, nivel_id, local_id
-
-
                     $response = [
                         "alumno" => [
                             "id"=>$alumno->MP_ALU_ID,
@@ -194,7 +219,7 @@ class HomeController extends Controller
                             "dni"=>$alumno->MP_ALU_DNI,
                             "sexo"=>$alumno->MP_ALU_SEXO,
                         ],
-                        "matricula"=>[
+                        "matricula"=> $matricula?[
                             "matricula_id"=>$matricula->MP_MAT_ID,
                             "estado_id"=>$matricula->MP_MAT_ESTADO,
                             "situacion_id"=>$matricula->MP_MAT_SITUACION,
@@ -205,11 +230,13 @@ class HomeController extends Controller
                             "anio_id"=>$vacante->MP_ANIO_ID,
                             "grado_id"=>$vacante->MP_GRAD_ID,
                             "seccion_id"=>$vacante->MP_SEC_ID
-                        ],
+                        ]:[],
                         "cronograma"=>$cronograma,
-                        "conceptosPago"=>$conceptosPago
-                    ];
-                }
+                        "conceptosPago"=>$conceptosPago,
+                        "deudasPendientes"=>$deudas_pendientes,
+                        "cursando"=>$alumno_cursando,
+                    ];                 
+                }   
                 //else
                 //    return ["alumno"=> $alumno, "anio"=> $anio, "vacante"=> $vacante];
             }

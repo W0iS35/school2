@@ -4,18 +4,20 @@ $(()=>{
     $cronograma_pagos = document.getElementById("cronograma_pagos");
     $otros_pagos = document.getElementById("otros_pagos");
     
+    let conceptos = null;
     //$tbody_cronograma =  document.getElementById("tbody_cronograma"),
     //$tbody_cronograma =  $cronograma_pagos.querySelector("tbody"),
     //$tbody_otro = document.getElementById("tbody");
 
 
     $('.menu-facturacion').addClass('d-none');
-    $('.btn-menu-facturacion').on('click', onClickBtnMenu);
 
+    $('.btn-menu-facturacion').on('click', onClickBtnMenu);
     $formulario_pago.btn_buscar.addEventListener('click', onClickBtnSearch, null);
     $formulario_pago.tipo_pago.addEventListener('change', handleTipoPago, null);
     $formulario_pago.concepto_pago.addEventListener('change', selectOptionConcepto, null);
-    $formulario_pago.concepto_pago.addEventListener('change', selectOptionConcepto, null);
+    
+    //$formulario_pago.concepto_pago.addEventListener('change', selectOptionConcepto, null);
     
     document.getElementById('btn-confirmar-pago').addEventListener('click', onClickEnviarPeticion , null)
     document.getElementById('btn-confirmar-limpiar').addEventListener('click', onClickLimpiarFormulario  , null)
@@ -76,12 +78,32 @@ $(()=>{
         resetearPagina(true);
     }
 
+    function selectCronogramaPendiente(e){
+        e.stopPropagation()
+        console.log(this);
+        console.log(this.dataset);
+        console.log(this.dataset.id);
+        console.log(this.dataset.monto);
+        console.log(this.dataset.concepto);
+
+        // Agregando configuracion al formulario 
+        let option = document.createElement('option');
+        let textoOption = document.createTextNode(`${this.dataset.concepto} (${this.dataset.monto})`);
+        option.value = this.dataset.id;
+        option.appendChild(textoOption);
+        $formulario_pago.concepto_pago.prepend(option);
+
+        $formulario_pago.concepto_pago.value= this.dataset.id;
+        $formulario_pago.pago_monto.value = this.dataset.monto;
+    }
+
     /************************************************ End: Eventos ***********************************************/
     
 
     /************************************************ Begin: Peticiones ************************************************/
     async function buscarAlumo(url){
 
+        //alert(url);
         // Limpiando formulario y tablas
         resetearPagina(true);
 
@@ -100,7 +122,7 @@ $(()=>{
             let tableCronograma = "";
             json.cronograma.forEach((value) => {
                 tableCronograma+= `
-                <tr class="${value.MP_CRO_ESTADO=='PENDIENTE'? 'table-danger bg-hover-light pagar-cronograma':''} data-id-cronograma='${value.id_cronograma}' ">
+                <tr class="${value.MP_CRO_ESTADO=='PENDIENTE'? 'table-danger bg-hover-light pagar-cronograma':''}"  data-id="${value.id_cronograma}" data-monto="${value.MP_CRO_MONTO}" data-concepto="${value.MP_CON_CONCEPTO}"" >
                     <td class='text-center text-capitalize' > ${value.id_cronograma} </td>
                     <td class='text-center text-capitalize' > ${value.MP_CON_CONCEPTO.toLowerCase()} </td>
                     <td class='text-center text-capitalize' > ${value.MP_CRO_TIPODEUDA.toLowerCase()} </td>
@@ -112,19 +134,10 @@ $(()=>{
                 $cronograma_pagos.querySelector("tbody").innerHTML = tableCronograma==""? "<tr colspan='5' class='text-center'> No se encontro un cronograma de pagos </tr>":tableCronograma;
 
 
-            //Cargando conceptos
-            let selectConceptos = "";
-            json.conceptosPago.forEach((value) => {
-                selectConceptos+= `
-                <option id="${value.id_conceptoPago}" data-monto='${value.monto}' > ${value.concepto_nombre} (${value.monto})  [${value.id_conceptoPago}]  </option> `
-            })
-            $("#concepto_pago").html(selectConceptos);
-
-            //Cargando Monto
-            formulario_pago.pago_monto.value = formulario_pago.concepto_pago.options[0].getAttribute('data-monto');
-
-
-            document.getElementsByClassName('pagar-cronograma').forEach((element)=>element.addEventListener('click', (e)=>{alert('Hola mundo')}, null))
+            conceptos = json.conceptosPago;
+            cargarConceptos();
+            
+            document.getElementsByClassName('pagar-cronograma').forEach((element)=>element.addEventListener('click', selectCronogramaPendiente, null))
         } catch (error) {
             console.error(error);
         }
@@ -137,17 +150,30 @@ $(()=>{
     function RefrescarCambios() {
         
     }
+    
+    function cargarConceptos(){
+        //Cargando conceptos
+        let selectConceptos = "";
+        conceptos.forEach((value) => {
+            selectConceptos+= `
+            <option id="${value.id_conceptoPago}" data-monto='${value.monto}' > ${value.concepto_nombre} (${value.monto})  [${value.id_conceptoPago}]  </option> `
+        })
+        $formulario_pago.concepto_pago.innerHTML=selectConceptos;
+        
+        //Cargando Monto
+        formulario_pago.pago_monto.value = formulario_pago.concepto_pago.options[0].getAttribute('data-monto');
+    }
 
     function resetearPagina(total=false){
 
         let $tbody_cronograma =  $cronograma_pagos.querySelector("tbody"),
-            $tbody_otro = $otros_pagos.querySelector("tbody"),
-            fecha = (new Date(Date.now())).toLocaleDateString().split('/');
+        $tbody_otro = $otros_pagos.querySelector("tbody"),
+        fecha = (new Date(Date.now())).toLocaleDateString().split('/');
         
 
         if(total){
             //Reseteo cambio de alumno
-            $formulario_pago.dni_alumno.value= '' ;
+            //$formulario_pago.dni_alumno.value= '' ;
             $formulario_pago.concepto_pago.innerHTML=' <option> - </option> ';
             $formulario_pago.pago_monto.value=0;
             $alumno.value='-';
