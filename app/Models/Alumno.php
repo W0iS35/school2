@@ -15,7 +15,7 @@ class Alumno extends Model
     protected $primaryKey = 'MP_ALU_ID';
 
     public function matricula(){
-        return $this->hasMany(Matricula::class, 'MP_ALU_ID', 'MP_ALU_ID');
+        return $this->hasMany(Matricula::class, 'MP_ALU_ID', 'MP_ALU_ID')->orderBy('MP_MAT_ID', 'desc');
     }
 
 

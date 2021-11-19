@@ -27,36 +27,40 @@
             <h4>Registrar pago:</h4>
             <hr>
             <div>
-                <form class="p-3 ">
-                    <div class="d-flex  mt-5 justify-content-between ">
-                        <div class=" ">
-                            <label for="tipo_busqueda" class="">Buscar alumno por: </label> 
-                            <select name="tipo_busqueda" id="tipo_busqueda" class="col-4">
-                                <option value="1">DNI</option>
-                                <option value="2">Codigo de alumno</option>
-                            </select>  
-                        </div>
+                <form class="p-3" id="formulario_pago" >
+                    <div class="mt-5 form-group ">
+                    
+                    <div class=" row   ">
+                        <input type="hidden" class="col-10 " id="anio_id" value="{{$anio->MP_ANIO_ID}}"  readonly disabled>
 
-                        <div class=" ">
-                            <label for="codigo_alumno" class="">Codigo</label> 
-                            <input type="number" name="codigo_alumno" id="codigo_alumno" placeholder="123456789" class="col-7" >
+                        <label for="dni_alumno" class="col-4">Documento Nacional de Identidad (DNI):  </label> 
+                        <div class="col-5 p-2">
+                            <input type="number" name="dni_alumno" id="dni_alumno" placeholder="123456789" class="col-12" required >
+                        </div>                        
+                        <div class="col-2 text-end p-0 pt-2">
+                            <button class="btn btn-sm btn-primary p-5 py-1" id="btn_search" name="btn_buscar" type="submit" target-url="{{ route('home.alumno_info') }}" >
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
                         </div>
-                        
-                        <button class="btn btn-sm p-5 py-0 btn-facebook ">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
+                    </div>
                     </div>
 
                     <div class="mt-5">
-                        <label for="tipo_pago" class="col-4  ">Concepto de pago: </label> 
+                        <label for="concepto_pago" class="col-4  ">Concepto de pago: </label> 
                        <select class="col-7" name="concepto_pago" id="concepto_pago">
                            <option value="1">Efectivo</option>
                            <option value="2">Deposito</option>
                        </select>
                     </div>
+                    
+                    <div class="pago_efectivo mt-5">
+                        <label for="pago_monto" class="col-4 ">Monto</label> 
+                        <input type="number" id="pago_monto" name="pago_monto" value="0" readonly disabled  class="col-7" >
+                    </div>
+
 
                     <hr>
-                    
+
                     <div class="mt-5">
                         <label for="tipo_pago" class="col-4  ">Tipo de pago: </label> 
                        <select class="col-7" name="tipo_pago" id="tipo_pago">
@@ -66,34 +70,33 @@
                     </div>
 
                     <!---------------------- Begin: Formas de pago --------------------------------->
-                    <div class="pago_efectivo mt-5">
-                        <label for="codigo_alumno" class="col-4 ">Monto</label> 
-                        <input type="number" id="pago_monto" value="0" readonly disabled  class="col-7" >
-                    </div>
-                    
+                    a
                     <div class="pago_banco mt-5">
-                        <label for="codigo_alumno" class="col-4 ">Banco: </label> 
-                        <select name="pago_banco" id="" class="col-7">
+                        <label for="pago_banco" class="col-4 ">Banco: </label> 
+                        <select name="pago_banco" id="pago_banco" class="col-7">
                             <option value="BCP">BCP</option>
                             <option value="BBVA">BBVA</option>
                         </select>
                         <br><br>
+                        
                         <label for="numero_operacion" class="col-4 ">Numero de operacion: </label> 
-                        <input type="number" id="numero_operacion" name="numero_operacion"  class="col-7" >
+                        <input type="number" id="numero_operacion" placeholder="Ingrese numero de operacion" name="numero_operacion"  class="col-7" >
+
+                        <div class="form-group mt-5">
+                            <label for="fecha_operacion" class="col-4 ">Fecha de operacion: </label> 
+                            <input type="date" id="fecha_operacion" name="fecha_operacion"  class="col-7" >
+                        </div>
+
                     </div>
                     <!---------------------- End: Formas de pago --------------------------------->
                     
 
                     <!----------------------------------- Begin: Fechas - Evaluar ----------------------------------->
                     <div class="form-group mt-5">
-                        <label for="numero_operacion" class="col-4 ">Fecha de pago: </label> 
-                        <input type="date" id="numero_operacion" name="numero_operacion"  class="col-7" >
+                        <label for="fecha_pago" class="col-4 ">Fecha de pago: </label> 
+                        <input type="date" id="fecha_pago" name="fecha_pago"  class="col-7" >
                     </div>
                     
-                    <div class="form-group mt-5">
-                        <label for="numero_operacion" class="col-4 ">Fecha de operacion: </label> 
-                        <input type="date" id="numero_operacion" name="numero_operacion"  class="col-7" >
-                    </div>
                     <!----------------------------------- End: Fechas - Evaluar ----------------------------------->
                     
                     <hr>
@@ -106,8 +109,8 @@
                      </div>
 
                      <div class="form-group mt-5 text-end">
-                         <button class="btn btn-sm btn-primary"> Confirmar <i class="fas fa-save"></i> </button>
-                         <button class="btn btn-sm btn-danger"> Cancelar <i class="fa fa-times" aria-hidden="true"></i> </button>
+                         <button class="btn btn-sm btn-primary" type="submit" name="btn_confirmar" id="btn-confirmar-pago" > Confirmar <i class="fas fa-save"></i> </button>
+                         <button class="btn btn-sm btn-danger" type="button"  name="btn_limpiar" id="btn-confirmar-limpiar" > Limpiar <i class="fa fa-times" aria-hidden="true"></i> </button>
                      </div>
                 </form>
             </div>
@@ -116,22 +119,24 @@
 
         <!--------------------------- Begin: Resumen pagos ---------------------------> 
         <div class="col-md-5 shadow bg-white p-0">
+            <!--------------------------- Begin: Informacion de alumno ------------------------------> 
+
+            <div class="mt-5">
+                <div class="mt-5 row p-3 d-flex  ">
+                    <label for="alumno_nombre" class="col-2">Alumno: </label> 
+                    <input type="text" class="col-10 " name="alumno_nombre"  id="alumno_nombre"  readonly disabled>
+                </div>
+            </div>
+
+            <!--------------------------- End: Informacion de alumno ------------------------------> 
 
             <!--------------------------- NavBar: Menu Resumen --------------------------->
-            <nav class="bg-secondary border border-top-1 border-white">
+            <nav class="bg-secondary border border-top-3 border-secondary">
                 <button class="border-0 btn btn-sm btn-hover-rise bg-hover-white btn-menu-facturacion bg-white" id="btn-cronograma" target="#cronograma_pagos" >   Cronograma pagos </button>
                 <button class="border-0 btn btn-sm btn-hover-rise bg-hover-white btn-menu-facturacion" id="btn-otros" target="#otros_pagos">   Otros pagos </button>
             </nav>
 
             <div class="p-3">
-                <!--------------------------- Begin: Informacion de alumno ------------------------------> 
-                <div class="mt-5">
-                    <div class="mt-5 row p-3 d-flex  ">
-                        <label for="alumno_nombre" class="col-2">Alumno: </label> 
-                        <input type="text" class="col-10 " id="alumno_nombre"  readonly disabled>
-                    </div>
-                </div>
-                <!--------------------------- End: Informacion de alumno ------------------------------> 
                 <hr>
                 <!--------------------------- Begin: Cronogramas de pagos ------------------------------> 
                 <div class="menu-facturacion " id="cronograma_pagos">
@@ -142,12 +147,13 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" >Concepto</th>
-                                    <th class="text-center" >Tipo de deuda</th>
+                                    <th class="text-center " >Tipo de deuda</th>
+                                    <th class="text-center " >Estado</th>
                                     <th class="text-center" >Monto</th>
-                                    <th class="text-center" >Fecha</th>
+                                    <!-- <th class="text-center" >Fecha</th> -->
                                 </tr>
                             </thead>
-                            <tbody class="table-striped"  id="tbody_cronograma">
+                            <tbody class="table-striped "  name="tbody_cronograma">
                                 <tr>
                                     <td class="text-center" colspan="5">Introdusca los datos del alumno a buscar</td>
                                 </tr>
@@ -169,9 +175,9 @@
                                 <th class="text-center">Fecha</th>
                             </tr>
                         </thead>
-                        <tbody  class="table-striped" id="tbody_cronograma">
+                        <tbody  class="table-striped" id="tbody_otros_pagos">
                             <tr>
-                                <td class="text-center" colspan="5">No se han encontrado otros pagos realizados</td>
+                                <td class="text-center" colspan="5">No se han gos realizados</td>
                             </tr>
                         </tbody>
                     </table>
@@ -183,6 +189,13 @@
     </div>
     <!--------------------------- End: Container ---------------------------> 
 </div>
+
+<style>
+    .pago_banco{
+        transition: all 3s ease;
+    }
+    
+</style>
 @endsection
 
 @section('scripts')

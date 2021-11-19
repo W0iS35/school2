@@ -39,7 +39,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 /************************************************************ */
 
 /* API */
-Route::get('/vacantes-api/{id_anio}/{id_local?}/{id_nivel?}', [HomeController::class, 'getDashboard'])->name('home.vacantesdashboard');
+Route::get('/vacantes-API/{id_anio}/{id_local?}/{id_nivel?}', [HomeController::class, 'getDashboard'])->name('home.vacantesdashboard');
+Route::get('/alumno-API/{dni?}/{id_anio?}', [HomeController::class, 'getInfoAlumno'])->name('home.alumno_info');
 
 
 

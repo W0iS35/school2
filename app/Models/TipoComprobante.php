@@ -14,5 +14,7 @@ class TipoComprobante extends Model
     protected $table = 'MP_TIPOCOMPROBANTE';
     protected $primaryKey = 'MP_TIPCOM_ID';
 
+    // Hola mundo
+    // asas
 
 }

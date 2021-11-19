@@ -14,4 +14,8 @@ class CronogramaPago extends Model
     protected $table = 'MP_CRONOGRAMAPAGO';
     protected $primaryKey = 'MP_CRO_ID';
 
+    public function conceptoPago(){
+        return $this->hasOne(ConceptosPago::class, 'MP_CONPAGO_ID', 'MP_CONPAGO_ID');
+    }
+
 }
