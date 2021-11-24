@@ -35,14 +35,13 @@ class User extends Authenticatable
         'password',
     ];
 
-/*
-
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-*/
+    function serieUsuario(){
+        return $this->hasOne(SerieUsuario::class, 'USU_ID','USU_ID');
+    }
+    
+    function serieComprobante(){
+        return $this->hasOne(SeriePago::class, 'USU_ID','USU_ID');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

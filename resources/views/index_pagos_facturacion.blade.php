@@ -21,17 +21,26 @@
 <div class="post m-2" id="kt_post">
 
     <!--------------------------- Begin: Container ---------------------------> 
+    
+    <div id="alertas" class="position-fixed d-block " style="top:10px; z-index: 1000; min-width: 500px; width: 100%;  max-width: 700px;">
+    
+    </div>
+
     <div class=" row justify-content-around">
         <!--------------------------- Begin: Registro de pagos ---------------------------> 
         <div class="col-md-6 p-3 shadow bg-white">
             <h4>Registrar pago:</h4>
             <hr>
             <div>
-                <form class="p-3" id="formulario_pago" >
+                <form class="p-3" id="formulario_pago" action="{{ route('pago.store') }}" method="POST">
                     <div class="mt-5 form-group ">
-                    
+                    @csrf
                     <div class=" row   ">
-                        <input type="hidden" class="col-10 " id="anio_id" value="{{$anio->MP_ANIO_ID}}"  readonly disabled>
+                        <!------------------------------------------------ Begin: Meta ------------------------------------------------>
+                        <input type="hidden" class="col-10 " id="anio_id" value="{{$anio->MP_ANIO_ID}}"  >
+                        <input type="hidden" class="col-10 " name="cronograma_id" id="cronograma_id" value=""  >
+                        <input type="hidden" class="col-10 " name="matricula_id" id="matricula_id" value=""  >
+                        <!------------------------------------------------ Begin: Meta ------------------------------------------------>
 
                         <label for="dni_alumno" class="col-4">Documento Nacional de Identidad (DNI):  </label> 
                         <div class="col-5 p-2">
@@ -70,7 +79,6 @@
                     </div>
 
                     <!---------------------- Begin: Formas de pago --------------------------------->
-                    a
                     <div class="pago_banco mt-5">
                         <label for="pago_banco" class="col-4 ">Banco: </label> 
                         <select name="pago_banco" id="pago_banco" class="col-7">
@@ -109,9 +117,11 @@
                      </div>
 
                      <div class="form-group mt-5 text-end">
-                         <button class="btn btn-sm btn-primary" type="submit" name="btn_confirmar" id="btn-confirmar-pago" > Confirmar <i class="fas fa-save"></i> </button>
+                         <button class="btn btn-sm btn-primary" type="submit" name="btn_confirmar" data-endpoint="{{ route('pago.store') }}" id="btn-confirmar-pago" > Confirmar <i class="fas fa-save"></i> </button>
                          <button class="btn btn-sm btn-danger" type="button"  name="btn_limpiar" id="btn-confirmar-limpiar" > Limpiar <i class="fa fa-times" aria-hidden="true"></i> </button>
                      </div>
+
+
                 </form>
             </div>
         </div>
@@ -132,8 +142,9 @@
 
             <!--------------------------- NavBar: Menu Resumen --------------------------->
             <nav class="bg-secondary border border-top-3 border-secondary">
-                <button class="border-0 btn btn-sm btn-hover-rise bg-hover-white btn-menu-facturacion bg-white" id="btn-cronograma" target="#cronograma_pagos" >   Cronograma pagos </button>
-                <button class="border-0 btn btn-sm btn-hover-rise bg-hover-white btn-menu-facturacion" id="btn-otros" target="#otros_pagos">   Otros pagos </button>
+                <button class="border-0 btn btn-sm  bg-hover-white btn-menu-facturacion bg-white" id="btn-cronograma" target="#cronograma_pagos" >   Cronograma pagos </button>
+                <button class="border-0 btn btn-sm  bg-hover-white btn-menu-facturacion" id="btn-otros" target="#otros_pagos">   Otros pagos </button>
+                <button class="border-0 btn btn-sm  bg-hover-white bg-warning btn-menu-facturacion" id="btn-pagos-pendientes" target="#pagos_pendientes">   Pagos pendientes </button>
             </nav>
 
             <div class="p-3">
@@ -170,6 +181,7 @@
                     <table class="table table-sm table-light table-striped table-responsive  ">
                         <thead>
                             <tr>
+                                <th class="text-center">N° Pago</th>
                                 <th class="text-center">Concepto</th>
                                 <th class="text-center">Monto</th>
                                 <th class="text-center">Fecha</th>
@@ -177,12 +189,36 @@
                         </thead>
                         <tbody  class="table-striped" id="tbody_otros_pagos">
                             <tr>
-                                <td class="text-center" colspan="5">No se han gos realizados</td>
+                                <td class="text-center" colspan="4">No se han gos realizados</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            <!--------------------------- End: Otros pagos ------------------------------> 
+            <!--------------------------- End: Otros pagos ------------------------------>
+            
+            
+                <!--------------------------- Begin: Pagos pendientes ------------------------------> 
+                <div class="menu-facturacion d-none" id="pagos_pendientes">
+                    <h4>PAGOS PENDIENTES</h4>
+                    <hr>
+                    <table class="table table-sm table-light table-striped table-responsive  ">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Tipo de deuda</th>
+                                <th class="text-center">Concepto</th>
+                                <th class="text-center">Monto</th>
+                                <th class="text-center">Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody  class="table-striped" id="tbody_otros_pagos">
+                            <tr>
+                                <td class="text-center" colspan="4">No se  ha encontrado pagos pendientes...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <!--------------------------- End: Pagos pendientes ------------------------------>
+
             </div>
         </div>    
         <!--------------------------- End: Resumen pagos ---------------------------> 

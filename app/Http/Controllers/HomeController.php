@@ -10,6 +10,7 @@ use App\Models\CronogramaPago;
 use App\Models\Grado;
 use App\Models\Local;
 use App\Models\Nivel;
+use App\Models\Pago;
 use App\Models\Seccion;
 use App\Models\Vacante;
 use Illuminate\Http\Request;
@@ -152,10 +153,11 @@ class HomeController extends Controller
             //return ["alumno"=> $alumno, "anio"=> $anio, "vacante"=> $vacante, "conceptosPago"=> $conceptosPago, "cronograma"=>$cronograma];
 
             
-            if($alumno){
+            if($alumno && $anio){
                 $vacante = [];
                 $cronograma= [];
                 $conceptosPago = [];
+                $otrosPagos = [];
                 $deudas_pendientes=[];
                 $alumno_cursando = true;
 
@@ -172,10 +174,18 @@ class HomeController extends Controller
                             $matricula= $matriculaIterador;
                             $vacante = $matriculaIterador->vacante;
                         }
-                        // Buscando deudas pendientes
-                        $cronogramasPendientes = CronogramaPago::where('MP_MAT_ID',$matriculaIterador->MP_MAT_ID)
-                                                ->where('MP_CRO_ESTADO', 'PENDIENTE')->get();
-                        $deudas_pendientes = [...$deudas_pendientes, ...$cronogramasPendientes];
+                        else{
+                            
+                            $cronogramasPendientes = CronogramaPago::join('MP_CONCEPTOPAGO', 'MP_CRONOGRAMAPAGO.MP_CONPAGO_ID', '=', 'MP_CONCEPTOPAGO.MP_CONPAGO_ID')
+                            ->join('MP_CONCEPTO', 'MP_CONCEPTOPAGO.MP_CON_ID', '=', 'MP_CONCEPTO.MP_CON_ID')
+                            ->where('MP_MAT_ID',$matriculaIterador->MP_MAT_ID)
+                            ->where('MP_CRO_ESTADO', 'PENDIENTE')->get();
+
+                        
+                            //->select(["MP_CRO_ID as id_cronograma","MP_MAT_ID", "MP_CRO_ESTADO", "MP_CRO_TIPODEUDA", "MP_CRO_MONTO", "MP_ANIO_ID","MP_CON_CONCEPTO" ])
+
+                            $deudas_pendientes = [...$deudas_pendientes, ...$cronogramasPendientes];
+                        }
                     }
                     //return $deudas_pendientes;
                     //Si el alumno no se encuentra matriculado en el año actua, matricula y vacante seran iguales al ultimo anio de estudios 
@@ -211,6 +221,15 @@ class HomeController extends Controller
                      $conceptosPago = DB::select($query,  [ ($alumno_cursando? $vacante->MP_ANIO_ID: $anio->MP_ANIO_ID ),$vacante->MP_NIV_ID,$vacante->MP_LOC_ID]);  
                     //return ["alumno"=> $alumno, "anio"=> $anio, "vacante"=> $vacante, "conceptosPago"=> $conceptosPago, "cronograma"=>$cronograma];
                     
+
+
+                    $otrosPagos = Pago::join('MP_CONCEPTOPAGO', 'MP_PAGO.MP_CONPAGO_ID', '=', 'MP_CONCEPTOPAGO.MP_CONPAGO_ID')
+                                                      ->join('MP_CONCEPTO', 'MP_CONCEPTOPAGO.MP_CON_ID', '=', 'MP_CONCEPTO.MP_CON_ID')
+                                                      ->where('MP_PAGO.MP_CRO_ID',null)
+                                                      ->where('MP_PAGO.MP_MAT_ID', $matricula->MP_MAT_ID)
+                                                      ->select(['MP_PAGO_ID', 'MP_PAGO_FECHA', 'MP_PAGO_NRO','MP_TIPCOM_ID', 'MP_CON_CONCEPTO', 'MP_CONPAGO_MONTO', 'MP_PAGO_LEE_MONTO'])
+                                                      ->get();
+                                                      
                     $response = [
                         "alumno" => [
                             "id"=>$alumno->MP_ALU_ID,
@@ -233,15 +252,28 @@ class HomeController extends Controller
                         ]:[],
                         "cronograma"=>$cronograma,
                         "conceptosPago"=>$conceptosPago,
+                        "otrosPagos"=> $otrosPagos,
                         "deudasPendientes"=>$deudas_pendientes,
                         "cursando"=>$alumno_cursando,
                     ];                 
                 }   
                 //else
                 //    return ["alumno"=> $alumno, "anio"=> $anio, "vacante"=> $vacante];
+                return response()->json([
+                    "ok"=>true,
+                    "data"=>$response
+                ],200);
             }
+            
+            return response()->json([
+                "ok"=>false,
+                "msg"=> "ERROR: No se encuentra ningun alumno registrado con el dni: "+$dni]
+                ,400);
         }
-        return response()->json($response);
+        return response()->json([
+            "ok"=>false,
+            "msg"=> "ERROR: Falta de parametros (DNI / Año academico) "]
+            ,400);
     }
 
     /*********************** End: API ************************************/

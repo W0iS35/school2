@@ -4,6 +4,7 @@ use App\Http\Controllers\AnioAcademicoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConceptoPagoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PagoController;
 use App\Http\Controllers\VacantesController;
 use App\Models\Vacante;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,11 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 /* API */
 Route::get('/vacantes-API/{id_anio}/{id_local?}/{id_nivel?}', [HomeController::class, 'getDashboard'])->name('home.vacantesdashboard');
 Route::get('/alumno-API/{dni?}/{id_anio?}', [HomeController::class, 'getInfoAlumno'])->name('home.alumno_info');
+
+Route::get('/api/pagos', [PagoController::class, 'index'])->name('pago');
+Route::post('/api/pagos', [PagoController::class, 'store'])->name('pago.store');
+
+//Route::post('/Pagos', [PagoController::class, 'store'])->name('pago.store');
 
 
 
